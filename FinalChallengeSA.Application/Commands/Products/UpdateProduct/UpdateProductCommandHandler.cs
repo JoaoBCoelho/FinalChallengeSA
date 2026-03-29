@@ -11,9 +11,9 @@ namespace FinalChallengeSA.Application.Commands.Products.UpdateProduct
 {
     public sealed class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ProductResponse>
     {
-        private readonly IGenericRepository<Product> _repository;
+        private readonly IProductRepository _repository;
 
-        public UpdateProductCommandHandler(IGenericRepository<Product> repository)
+        public UpdateProductCommandHandler(IProductRepository repository)
         {
             _repository = repository;
         }
@@ -22,15 +22,12 @@ namespace FinalChallengeSA.Application.Commands.Products.UpdateProduct
             UpdateProductCommand command,
             CancellationToken cancellationToken)
         {
-            var existing = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Product '{command.Id}' not found.");
+            var product = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Product '{command.Id}' not found.");
 
-            var updated = existing with
-            {
-                Name = command.Request.Name,
-                Price = command.Request.Price
-            };
-            await _repository.UpdateAsync(updated, cancellationToken);
-            return new ProductResponse(updated.Id, updated.Name, updated.Description, updated.Price);
+            product.Update(command.Request.Name, command.Request.Description, command.Request.Price);
+
+            await _repository.UpdateAsync(product, cancellationToken);
+            return new ProductResponse(product.Id, product.Name, product.Description, product.Price);
         }
     }
 }

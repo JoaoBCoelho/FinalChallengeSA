@@ -7,9 +7,9 @@ namespace FinalChallengeSA.Application.Commands.Orders.DeleteOrder
 {
     public sealed class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand>
     {
-        private readonly IGenericRepository<Order> _repository;
+        private readonly IOrderRepository _repository;
 
-        public DeleteOrderCommandHandler(IGenericRepository<Order> repository)
+        public DeleteOrderCommandHandler(IOrderRepository repository)
         {
             _repository = repository;
         }
@@ -18,9 +18,8 @@ namespace FinalChallengeSA.Application.Commands.Orders.DeleteOrder
             DeleteOrderCommand command,
             CancellationToken cancellationToken)
         {
-            var existing = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Order '{command.Id}' not found.");
-
-            await _repository.DeleteAsync(existing, cancellationToken);
+            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Order '{command.Id}' not found.");
+            await _repository.DeleteAsync(command.Id, cancellationToken);
         }
     }
 }

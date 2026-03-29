@@ -6,9 +6,9 @@ namespace FinalChallengeSA.Application.Queries.Orders.CountOrders
 {
     public sealed class CountOrdersQueryHandler : IRequestHandler<CountOrdersQuery, int>
     {
-        private readonly IGenericRepository<Order> _repository;
+        private readonly IOrderRepository _repository;
 
-        public CountOrdersQueryHandler(IGenericRepository<Order> repository)
+        public CountOrdersQueryHandler(IOrderRepository repository)
         {
             _repository = repository;
         }

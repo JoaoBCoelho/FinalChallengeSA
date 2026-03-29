@@ -1,3 +1,4 @@
+using FinalChallengeSA.Infra.Data.Context;
 using FinalChallengeSA.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,16 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddApplicationMediatR();
 
+builder.Services.RegisterDbContext(builder.Configuration);
+builder.Services.AddRepositories();
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 app.MapOpenApi();

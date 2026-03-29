@@ -16,6 +16,18 @@ public sealed class Order
         Id = Guid.NewGuid();
         CustomerId = customerId;
         Products = [.. products];
+        CalculateTotalAmount();
+    }
+
+    public void Update(Guid customerId, IEnumerable<Product> products)
+    {
+        CustomerId = customerId;
+        Products = [.. products];
+        CalculateTotalAmount();
+    }
+
+    private void CalculateTotalAmount()
+    {
         TotalAmount = Products.Sum(p => p.Price);
     }
 }

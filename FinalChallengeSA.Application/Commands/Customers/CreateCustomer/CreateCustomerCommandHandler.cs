@@ -7,9 +7,9 @@ namespace FinalChallengeSA.Application.Commands.Customers.CreateCustomer
 {
     public sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, CustomerResponse>
     {
-        private readonly IGenericRepository<Customer> _repository;
+        private readonly ICustomerRepository _repository;
 
-        public CreateCustomerCommandHandler(IGenericRepository<Customer> repository)
+        public CreateCustomerCommandHandler(ICustomerRepository repository)
         {
             _repository = repository;
         }
@@ -20,12 +20,7 @@ namespace FinalChallengeSA.Application.Commands.Customers.CreateCustomer
         {
             var request = command.Request;
 
-            // Aqui entrariam validações de negócio (duplicidade de email, etc.)
-
-            var customer = new Customer(
-                Id: Guid.NewGuid(),
-                Name: request.Name,
-                Email: request.Email);
+            var customer = new Customer(request.Name, request.Email);
 
             await _repository.AddAsync(customer, cancellationToken);
 

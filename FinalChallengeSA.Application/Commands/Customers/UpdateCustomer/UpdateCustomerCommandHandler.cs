@@ -8,9 +8,9 @@ namespace FinalChallengeSA.Application.Commands.Customers.UpdateCustomer
 {
     public sealed class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, CustomerResponse>
     {
-        private readonly IGenericRepository<Customer> _repository;
+        private readonly ICustomerRepository _repository;
 
-        public UpdateCustomerCommandHandler(IGenericRepository<Customer> repository)
+        public UpdateCustomerCommandHandler(ICustomerRepository repository)
         {
             _repository = repository;
         }
@@ -19,16 +19,12 @@ namespace FinalChallengeSA.Application.Commands.Customers.UpdateCustomer
             UpdateCustomerCommand command,
             CancellationToken cancellationToken)
         {
-            var existing = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Customer '{command.Id}' not found.");
-            var updated = existing with
-            {
-                Name = command.Request.Name,
-                Email = command.Request.Email
-            };
+            var customer = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Customer '{command.Id}' not found.");
+            customer.Update(command.Request.Name, command.Request.Email);
 
-            await _repository.UpdateAsync(updated, cancellationToken);
+            await _repository.UpdateAsync(customer, cancellationToken);
 
-            return new CustomerResponse(updated.Id, updated.Name, updated.Email);
+            return new CustomerResponse(customer.Id, customer.Name, customer.Email);
         }
     }
 }

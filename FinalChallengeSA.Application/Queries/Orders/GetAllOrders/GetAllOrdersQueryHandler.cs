@@ -10,9 +10,9 @@ namespace FinalChallengeSA.Application.Queries.Orders.GetAllOrders
 {
     public sealed class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, IReadOnlyCollection<OrderResponse>>
     {
-        private readonly IGenericRepository<Order> _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public GetAllOrdersQueryHandler(IGenericRepository<Order> orderRepository)
+        public GetAllOrdersQueryHandler(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }

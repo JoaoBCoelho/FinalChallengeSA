@@ -7,9 +7,9 @@ namespace FinalChallengeSA.Application.Commands.Customers.DeleteCustomer
 {
     public sealed class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand>
     {
-        private readonly IGenericRepository<Customer> _repository;
+        private readonly ICustomerRepository _repository;
 
-        public DeleteCustomerCommandHandler(IGenericRepository<Customer> repository)
+        public DeleteCustomerCommandHandler(ICustomerRepository repository)
         {
             _repository = repository;
         }
@@ -18,8 +18,8 @@ namespace FinalChallengeSA.Application.Commands.Customers.DeleteCustomer
             DeleteCustomerCommand command,
             CancellationToken cancellationToken)
         {
-            var existing = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Customer '{command.Id}' not found.");
-            await _repository.DeleteAsync(existing, cancellationToken);
+            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Customer '{command.Id}' not found.");
+            await _repository.DeleteAsync(command.Id, cancellationToken);
         }
     }
 }

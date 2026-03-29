@@ -8,10 +8,10 @@ namespace FinalChallengeSA.Application.Commands.Orders.UpdateOrder
 {
     public sealed class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, OrderResponse>
     {
-        private readonly IGenericRepository<Order> _orderRepository;
-        private readonly IGenericRepository<Product> _productRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
 
-        public UpdateOrderCommandHandler(IGenericRepository<Order> orderRepository, IGenericRepository<Product> productRepository)
+        public UpdateOrderCommandHandler(IOrderRepository orderRepository, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _productRepository = productRepository;
@@ -21,20 +21,15 @@ namespace FinalChallengeSA.Application.Commands.Orders.UpdateOrder
             UpdateOrderCommand command,
             CancellationToken cancellationToken)
         {
-            var existing = await _orderRepository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Order '{command.Id}' not found.");
+            var order = await _orderRepository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Pedido com id '{command.Id}' não encontrado.");
 
             var products = await GetProductsAsync(command.Request.ProductIds);
-            var totalAmount = products.Sum(p => p.Price);
 
-            var updated = new Order(
-                existing.Id,
-                command.Request.CustomerId,
-                products,
-                totalAmount);
+            order.Update(command.Request.CustomerId, products);
 
-            await _orderRepository.UpdateAsync(updated, cancellationToken);
+            await _orderRepository.UpdateAsync(order, cancellationToken);
 
-            return CreateResponse(products, updated);
+            return CreateResponse(products, order);
         }
 
         private static OrderResponse CreateResponse(IReadOnlyList<Product> products, Order order)

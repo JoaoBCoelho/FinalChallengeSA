@@ -10,9 +10,9 @@ namespace FinalChallengeSA.Application.Commands.Products.DeleteProduct
 {
     public sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
-        private readonly IGenericRepository<Product> _repository;
+        private readonly IProductRepository _repository;
 
-        public DeleteProductCommandHandler(IGenericRepository<Product> repository)
+        public DeleteProductCommandHandler(IProductRepository repository)
         {
             _repository = repository;
         }
@@ -21,9 +21,8 @@ namespace FinalChallengeSA.Application.Commands.Products.DeleteProduct
             DeleteProductCommand command,
             CancellationToken cancellationToken)
         {
-            var existing = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Product '{command.Id}' not found.");
-
-            await _repository.DeleteAsync(existing, cancellationToken);
+            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Product '{command.Id}' not found.");
+            await _repository.DeleteAsync(command.Id, cancellationToken);
         }
     }
 }

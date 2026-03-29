@@ -8,9 +8,9 @@ namespace FinalChallengeSA.Application.Queries.Orders.GetOrderById
 {
     public sealed class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, OrderResponse>
     {
-        private readonly IGenericRepository<Order> _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public GetOrderByIdQueryHandler(IGenericRepository<Order> orderRepository)
+        public GetOrderByIdQueryHandler(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }

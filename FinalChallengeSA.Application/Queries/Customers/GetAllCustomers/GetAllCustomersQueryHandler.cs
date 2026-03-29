@@ -8,9 +8,9 @@ namespace FinalChallengeSA.Application.Queries.Customers.GetAllCustomers
     public sealed class GetAllCustomersQueryHandler
     : IRequestHandler<GetAllCustomersQuery, IReadOnlyCollection<CustomerResponse>>
     {
-        private readonly IGenericRepository<Customer> _repository;
+        private readonly ICustomerRepository _repository;
 
-        public GetAllCustomersQueryHandler(IGenericRepository<Customer> repository)
+        public GetAllCustomersQueryHandler(ICustomerRepository repository)
         {
             _repository = repository;
         }

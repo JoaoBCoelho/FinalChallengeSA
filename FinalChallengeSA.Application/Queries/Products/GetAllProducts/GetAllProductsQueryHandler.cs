@@ -7,9 +7,9 @@ namespace FinalChallengeSA.Application.Queries.Products.GetAllProducts
 {
     public sealed class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IReadOnlyCollection<ProductResponse>>
     {
-        private readonly IGenericRepository<Product> _repository;
+        private readonly IProductRepository _repository;
 
-        public GetAllProductsQueryHandler(IGenericRepository<Product> repository)
+        public GetAllProductsQueryHandler(IProductRepository repository)
         {
             _repository = repository;
         }

@@ -7,9 +7,9 @@ namespace FinalChallengeSA.Application.Queries.Customers.GetCustomersByName
 {
     public sealed class GetCustomersByNameQueryHandler : IRequestHandler<GetCustomersByNameQuery, IReadOnlyCollection<CustomerResponse>>
     {
-        private readonly IGenericRepository<Customer> _repository;
+        private readonly ICustomerRepository _repository;
 
-        public GetCustomersByNameQueryHandler(IGenericRepository<Customer> repository)
+        public GetCustomersByNameQueryHandler(ICustomerRepository repository)
         {
             _repository = repository;
         }

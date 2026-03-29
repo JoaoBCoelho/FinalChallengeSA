@@ -7,9 +7,9 @@ namespace FinalChallengeSA.Application.Commands.Products.CreateProduct
 {
     public sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ProductResponse>
     {
-        private readonly IGenericRepository<Product> _repository;
+        private readonly IProductRepository _repository;
 
-        public CreateProductCommandHandler(IGenericRepository<Product> repository)
+        public CreateProductCommandHandler(IProductRepository repository)
         {
             _repository = repository;
         }
@@ -21,7 +21,6 @@ namespace FinalChallengeSA.Application.Commands.Products.CreateProduct
             var request = command.Request;
 
             var product = new Product(
-                Guid.NewGuid(),
                 request.Name,
                 request.Description,
                 request.Price);

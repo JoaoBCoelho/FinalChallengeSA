@@ -8,10 +8,10 @@ namespace FinalChallengeSA.Application.Commands.Orders.CreateOrder
 {
     public sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, OrderResponse>
     {
-        private readonly IGenericRepository<Order> _orderRepository;
-        private readonly IGenericRepository<Product> _productRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
 
-        public CreateOrderCommandHandler(IGenericRepository<Order> orderRepository, IGenericRepository<Product> productRepository)
+        public CreateOrderCommandHandler(IOrderRepository orderRepository, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _productRepository = productRepository;
@@ -26,11 +26,7 @@ namespace FinalChallengeSA.Application.Commands.Orders.CreateOrder
             var products = await GetProductsAsync(request.ProductIds);
             var totalAmount = products.Sum(p => p.Price);
 
-            var order = new Order(
-                Guid.NewGuid(),
-                request.CustomerId,
-                products,
-                totalAmount);
+            var order = new Order(request.CustomerId, products);
 
             await _orderRepository.AddAsync(order, cancellationToken);
 
