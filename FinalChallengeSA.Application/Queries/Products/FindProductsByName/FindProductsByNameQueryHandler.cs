@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using FinalChallengeSA.Application.DTOs;
 using FinalChallengeSA.Application.Interfaces;
 using FinalChallengeSA.Domain.Entities;
@@ -27,7 +24,7 @@ namespace FinalChallengeSA.Application.Queries.Products.GetProductsByName
             {
                 return [];
             }
-            return [.. products.Select(product => new ProductResponse(product.Id, product.Name, product.Price))];
+            return [.. products.Select(product => new ProductResponse(product.Id, product.Name, product.Description, product.Price))];
         }
     }
 }

@@ -30,7 +30,7 @@ namespace FinalChallengeSA.Application.Commands.Products.UpdateProduct
                 Price = command.Request.Price
             };
             await _repository.UpdateAsync(updated, cancellationToken);
-            return new ProductResponse(updated.Id, updated.Name, updated.Price);
+            return new ProductResponse(updated.Id, updated.Name, updated.Description, updated.Price);
         }
     }
 }

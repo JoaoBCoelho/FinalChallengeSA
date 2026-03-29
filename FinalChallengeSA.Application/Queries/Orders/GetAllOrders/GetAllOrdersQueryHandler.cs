@@ -10,19 +10,25 @@ namespace FinalChallengeSA.Application.Queries.Orders.GetAllOrders
 {
     public sealed class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, IReadOnlyCollection<OrderResponse>>
     {
-        private readonly IGenericRepository<Order> _repository;
+        private readonly IGenericRepository<Order> _orderRepository;
 
-        public GetAllOrdersQueryHandler(IGenericRepository<Order> repository)
+        public GetAllOrdersQueryHandler(IGenericRepository<Order> orderRepository)
         {
-            _repository = repository;
+            _orderRepository = orderRepository;
         }
 
         public async Task<IReadOnlyCollection<OrderResponse>> Handle(
             GetAllOrdersQuery query,
             CancellationToken cancellationToken)
         {
-            var orders = await _repository.GetAllAsync(cancellationToken);
-            return orders.Select(o => new OrderResponse(o.Id, o.Name, o.CustomerId, o.Total)).ToArray();
+            var orders = await _orderRepository.GetAllAsync(cancellationToken);
+            return orders.Select(CreateResponse).ToArray();
+        }
+
+        private static OrderResponse CreateResponse(Order order)
+        {
+            var productsResponse = order.Products.Select(p => new OrderProductResponse(p.Id, p.Name, p.Description, p.Price)).ToList();
+            return new OrderResponse(order.Id, order.CustomerId, productsResponse, order.TotalAmount);
         }
     }
 }

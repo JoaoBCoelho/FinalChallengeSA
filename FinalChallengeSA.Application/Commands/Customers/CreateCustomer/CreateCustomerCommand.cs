@@ -3,5 +3,5 @@ using MediatR;
 
 namespace FinalChallengeSA.Application.Commands.Customers.CreateCustomer
 {
-    public sealed record CreateCustomerCommand(CreateCustomerRequest Request) : IRequest<CustomerResponse>;
+    public sealed record CreateCustomerCommand(CustomerRequest Request) : IRequest<CustomerResponse>;
 }

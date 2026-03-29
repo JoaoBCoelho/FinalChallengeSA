@@ -21,8 +21,8 @@ namespace FinalChallengeSA.Application.Queries.Products.GetProductById
         {
             var product = await _repository.GetByIdAsync(query.Id, cancellationToken);
             return product is null
-                ? throw new NotFoundException($"Product '{query.Id}' not found.")
-                : new ProductResponse(product.Id, product.Name, product.Price);
+                ? throw new NotFoundException($"Produto com id '{query.Id}' não encontrado.")
+                : new ProductResponse(product.Id, product.Name, product.Description, product.Price);
         }
     }
 }

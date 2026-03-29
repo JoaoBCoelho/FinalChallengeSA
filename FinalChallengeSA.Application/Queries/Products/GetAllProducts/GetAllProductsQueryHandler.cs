@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using FinalChallengeSA.Application.DTOs;
 using FinalChallengeSA.Application.Interfaces;
 using FinalChallengeSA.Domain.Entities;
@@ -22,7 +19,7 @@ namespace FinalChallengeSA.Application.Queries.Products.GetAllProducts
             CancellationToken cancellationToken)
         {
             var products = await _repository.GetAllAsync(cancellationToken);
-            return products.Select(p => new ProductResponse(p.Id, p.Name, p.Price)).ToArray();
+            return products.Select(p => new ProductResponse(p.Id, p.Name, p.Description, p.Price)).ToArray();
         }
     }
 }

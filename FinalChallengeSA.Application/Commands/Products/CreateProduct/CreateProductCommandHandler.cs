@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using FinalChallengeSA.Application.DTOs;
 using FinalChallengeSA.Application.Interfaces;
 using FinalChallengeSA.Domain.Entities;
@@ -22,12 +19,16 @@ namespace FinalChallengeSA.Application.Commands.Products.CreateProduct
             CancellationToken cancellationToken)
         {
             var request = command.Request;
+
             var product = new Product(
-                Id: Guid.NewGuid(),
-                Name: request.Name,
-                Price: request.Price);
+                Guid.NewGuid(),
+                request.Name,
+                request.Description,
+                request.Price);
+
             await _repository.AddAsync(product, cancellationToken);
-            return new ProductResponse(product.Id, product.Name, product.Price);
+
+            return new ProductResponse(product.Id, product.Name, product.Description, product.Price);
         }
     }
 }

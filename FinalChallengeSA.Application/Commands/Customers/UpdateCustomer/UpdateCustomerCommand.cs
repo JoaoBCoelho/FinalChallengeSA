@@ -3,5 +3,5 @@ using MediatR;
 
 namespace FinalChallengeSA.Application.Commands.Customers.UpdateCustomer
 {
-    public sealed record UpdateCustomerCommand(Guid Id, UpdateCustomerRequest Request) : IRequest<CustomerResponse>;
+    public sealed record UpdateCustomerCommand(Guid Id, CustomerRequest Request) : IRequest<CustomerResponse>;
 }

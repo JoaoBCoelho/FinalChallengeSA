@@ -1,0 +1,43 @@
+services:
+  finalchallengesa-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: finalchallengesa-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_strong_Password123!"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - finalchallengesa-sqlserver-data:/var/opt/mssql
+    networks:
+      - finalchallengesa-net
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Your_strong_Password123!' -Q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  finalchallengesa-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finalchallengesa-api
+    ports:
+      - "5131:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=finalchallengesa-sqlserver,1433;Database=FinalChallengeSA;User Id=sa;Password=Your_strong_Password123!;TrustServerCertificate=True"
+    depends_on:
+      finalchallengesa-sqlserver:
+        condition: service_healthy
+    networks:
+      - finalchallengesa-net
+
+volumes:
+  finalchallengesa-sqlserver-data:
+
+networks:
+  finalchallengesa-net:
+    driver: bridge
