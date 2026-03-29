@@ -2,10 +2,8 @@
 
 namespace FinalChallengeSA.Application.Interfaces
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<IReadOnlyCollection<Order>> GetByCustomerIdAsync(
-        Guid customerId,
-        CancellationToken ct = default);
+        Task<IReadOnlyCollection<Order>> GetByCustomerIdAsync(Guid customerId, CancellationToken ct = default);
     }
 }

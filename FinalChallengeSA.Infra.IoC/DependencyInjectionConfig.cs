@@ -1,6 +1,7 @@
 ﻿using FinalChallengeSA.Application.Commands.Customers.CreateCustomer;
 using FinalChallengeSA.Application.Interfaces;
 using FinalChallengeSA.Infra.Data.Context;
+using FinalChallengeSA.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,15 +22,14 @@ namespace FinalChallengeSA.Infra.IoC
             return services;
         }
 
-        //public static IServiceCollection AddRepositories(this IServiceCollection services)
-        //{
-        //    services.AddScoped<ICartRepository, CartRepository>();
-        //    services.AddScoped<IProduc, ProductRepository>();
-        //    services.AddScoped<IOrderRepository, OrderRepository>();
-        //    services.AddScoped<ICategoryRepository, CategoryRepository>();
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
-        //    return services;
-        //}
+            return services;
+        }
 
         public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
         {

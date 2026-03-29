@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinalChallengeSA.Application\FinalChallengeSA.Application.csproj" />
     <ProjectReference Include="..\FinalChallengeSA.Domain\FinalChallengeSA.Domain.csproj" />
   </ItemGroup>
 
