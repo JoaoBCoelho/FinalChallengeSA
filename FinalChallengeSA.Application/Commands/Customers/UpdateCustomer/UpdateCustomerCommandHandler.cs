@@ -19,7 +19,7 @@ namespace FinalChallengeSA.Application.Commands.Customers.UpdateCustomer
             UpdateCustomerCommand command,
             CancellationToken cancellationToken)
         {
-            var customer = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Customer '{command.Id}' not found.");
+            var customer = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Cliente com id '{command.Id}' não encontrado.");
             customer.Update(command.Request.Name, command.Request.Email);
 
             await _repository.UpdateAsync(customer, cancellationToken);

@@ -18,7 +18,7 @@ namespace FinalChallengeSA.Application.Commands.Orders.DeleteOrder
             DeleteOrderCommand command,
             CancellationToken cancellationToken)
         {
-            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Order '{command.Id}' not found.");
+            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Pedido com id '{command.Id}' não encontrado.");
             await _repository.DeleteAsync(command.Id, cancellationToken);
         }
     }

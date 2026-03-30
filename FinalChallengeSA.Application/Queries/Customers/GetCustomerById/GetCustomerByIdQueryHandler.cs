@@ -23,7 +23,7 @@ namespace FinalChallengeSA.Application.Queries.Customers.GetCustomerById
             var customer = await _repository.GetByIdAsync(query.Id, cancellationToken);
 
             return customer is null
-                ? throw new NotFoundException($"Customer '{query.Id}' not found.")
+                ? throw new NotFoundException($"Cliente com id '{query.Id}' não encontrado.")
                 : new CustomerResponse(customer.Id, customer.Name, customer.Email);
         }
     }

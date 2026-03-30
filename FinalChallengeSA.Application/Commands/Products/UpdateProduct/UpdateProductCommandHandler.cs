@@ -22,7 +22,7 @@ namespace FinalChallengeSA.Application.Commands.Products.UpdateProduct
             UpdateProductCommand command,
             CancellationToken cancellationToken)
         {
-            var product = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Product '{command.Id}' not found.");
+            var product = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Produto com id '{command.Id}' não encontrado.");
 
             product.Update(command.Request.Name, command.Request.Description, command.Request.Price);
 

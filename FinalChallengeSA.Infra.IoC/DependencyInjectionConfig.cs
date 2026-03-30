@@ -34,16 +34,10 @@ namespace FinalChallengeSA.Infra.IoC
         public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada.");
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
         }
-
-        //public static IServiceCollection AddAutoMapper(this IServiceCollection services)
-        //{
-        //    services.AddAutoMapper(typeof(MappingProfile));
-        //    return services;
-        //}
     }
 }

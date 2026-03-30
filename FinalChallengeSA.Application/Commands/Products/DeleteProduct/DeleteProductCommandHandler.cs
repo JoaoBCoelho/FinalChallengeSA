@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using FinalChallengeSA.Application.Exceptions;
 using FinalChallengeSA.Application.Interfaces;
-using FinalChallengeSA.Domain.Entities;
 using MediatR;
 
 namespace FinalChallengeSA.Application.Commands.Products.DeleteProduct
@@ -21,7 +17,13 @@ namespace FinalChallengeSA.Application.Commands.Products.DeleteProduct
             DeleteProductCommand command,
             CancellationToken cancellationToken)
         {
-            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Product '{command.Id}' not found.");
+            var _ = await _repository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Produto com id '{command.Id}' não encontrado.");
+            var isInAnyOrder = await _repository.IsInAnyOrderAsync(command.Id, cancellationToken);
+            if (isInAnyOrder)
+            {
+                throw new InvalidOperationException($"Produto com id '{command.Id}' não pode ser deletado pois está presente em um ou mais pedidos.");
+            }
+
             await _repository.DeleteAsync(command.Id, cancellationToken);
         }
     }

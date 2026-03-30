@@ -57,6 +57,11 @@ namespace FinalChallengeSA.Infra.Data.Repositories
                 .ToListAsync(ct);
         }
 
+        public async Task<bool> HasOrdersAsync(Guid customerId, CancellationToken ct = default)
+        {
+            return await _context.Orders.AnyAsync(a => a.CustomerId == customerId, ct);
+        }
+
         public async Task UpdateAsync(Customer entity, CancellationToken ct = default)
         {
             _context.Customers.Update(entity);

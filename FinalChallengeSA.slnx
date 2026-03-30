@@ -4,5 +4,4 @@
   <Project Path="FinalChallengeSA.Domain/FinalChallengeSA.Domain.csproj" />
   <Project Path="FinalChallengeSA.Infra.Data/FinalChallengeSA.Infra.Data.csproj" />
   <Project Path="FinalChallengeSA.Infra.IoC/FinalChallengeSA.Infra.IoC.csproj" />
-  <Project Path="FinalChallengeSA.Tests/FinalChallengeSA.Tests.csproj" />
 </Solution>

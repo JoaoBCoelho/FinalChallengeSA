@@ -57,6 +57,11 @@ namespace FinalChallengeSA.Infra.Data.Repositories
                 .ToListAsync(ct);
         }
 
+        public async Task<bool> IsInAnyOrderAsync(Guid productId, CancellationToken ct = default)
+        {
+            return await _context.Orders.AnyAsync(a => a.Products.Any(product=> product.Id == productId), ct);
+        }
+
         public async Task UpdateAsync(Product entity, CancellationToken ct = default)
         {
             _context.Products.Update(entity);
