@@ -12,13 +12,7 @@ services:
       - finalchallengesa-sqlserver-data:/var/opt/mssql
     networks:
       - finalchallengesa-net
-    healthcheck:
-      test: ["CMD-SHELL", "cat < /dev/tcp/localhost/1433 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 40s
-
+ 
   finalchallengesa-api:
     build:
       context: .
@@ -30,14 +24,14 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=finalchallengesa-sqlserver,1433;Database=FinalChallengeSA;User Id=sa;Password=Your_strong_Password123!;TrustServerCertificate=True"
     depends_on:
-      finalchallengesa-sqlserver:
-        condition: service_healthy
+      - finalchallengesa-sqlserver
+    restart: on-failure
     networks:
       - finalchallengesa-net
-
+ 
 volumes:
   finalchallengesa-sqlserver-data:
-
+ 
 networks:
   finalchallengesa-net:
     driver: bridge

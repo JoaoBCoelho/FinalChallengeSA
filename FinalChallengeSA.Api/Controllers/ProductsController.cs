@@ -82,6 +82,9 @@ namespace FinalChallengeSA.Api.Controllers
         public async Task<IActionResult> GetByName(string name)
         {
             var result = await _mediator.Send(new GetProductsByNameQuery(name));
+            if (result is null)
+                return NotFound();
+
             return Ok(result);
         }
 

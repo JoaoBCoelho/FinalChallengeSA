@@ -4,6 +4,7 @@ WORKDIR /src
 
 # Solution and project files for restore caching
 COPY FinalChallengeSA.slnx ./
+COPY nuget.config ./
 COPY FinalChallengeSA.Domain/FinalChallengeSA.Domain.csproj FinalChallengeSA.Domain/
 COPY FinalChallengeSA.Application/FinalChallengeSA.Application.csproj FinalChallengeSA.Application/
 COPY FinalChallengeSA.Infra.Data/FinalChallengeSA.Infra.Data.csproj FinalChallengeSA.Infra.Data/
@@ -33,3 +34,4 @@ ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 ENTRYPOINT ["dotnet", "FinalChallengeSA.Api.dll"]
+ 
