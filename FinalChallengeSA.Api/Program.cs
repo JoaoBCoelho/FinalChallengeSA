@@ -1,3 +1,4 @@
+using FinalChallengeSA.Api.Middlewares;
 using FinalChallengeSA.Infra.Data.Context;
 using FinalChallengeSA.Infra.IoC;
 
@@ -15,6 +16,13 @@ builder.Services.RegisterDbContext(builder.Configuration);
 builder.Services.AddRepositories();
 
 var app = builder.Build();
+
+if (!app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {

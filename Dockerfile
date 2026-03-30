@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Solution and project files for restore caching
-COPY FinalChallengeSA.sln ./
+COPY FinalChallengeSA.slnx ./
 COPY FinalChallengeSA.Domain/FinalChallengeSA.Domain.csproj FinalChallengeSA.Domain/
 COPY FinalChallengeSA.Application/FinalChallengeSA.Application.csproj FinalChallengeSA.Application/
 COPY FinalChallengeSA.Infra.Data/FinalChallengeSA.Infra.Data.csproj FinalChallengeSA.Infra.Data/

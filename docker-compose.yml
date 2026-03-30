@@ -13,7 +13,7 @@ services:
     networks:
       - finalchallengesa-net
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Your_strong_Password123!' -Q 'SELECT 1'"]
+      test: ["CMD-SHELL", "cat < /dev/tcp/localhost/1433 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
