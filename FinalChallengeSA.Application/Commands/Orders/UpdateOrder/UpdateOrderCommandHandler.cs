@@ -2,6 +2,7 @@ using FinalChallengeSA.Application.DTOs;
 using FinalChallengeSA.Application.Exceptions;
 using FinalChallengeSA.Application.Interfaces;
 using FinalChallengeSA.Domain.Entities;
+using FluentValidation;
 using MediatR;
 
 namespace FinalChallengeSA.Application.Commands.Orders.UpdateOrder
@@ -10,17 +11,26 @@ namespace FinalChallengeSA.Application.Commands.Orders.UpdateOrder
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IValidator<UpdateOrderCommand> _validator;
 
-        public UpdateOrderCommandHandler(IOrderRepository orderRepository, IProductRepository productRepository)
+        public UpdateOrderCommandHandler(IOrderRepository orderRepository,
+            IProductRepository productRepository,
+            IValidator<UpdateOrderCommand> validator)
         {
             _orderRepository = orderRepository;
             _productRepository = productRepository;
+            _validator = validator;
         }
 
         public async Task<OrderResponse> Handle(
             UpdateOrderCommand command,
             CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(command);
+
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var order = await _orderRepository.GetByIdAsync(command.Id, cancellationToken) ?? throw new NotFoundException($"Pedido com id '{command.Id}' não encontrado.");
 
             var products = await GetProductsAsync(command.Request.ProductIds);

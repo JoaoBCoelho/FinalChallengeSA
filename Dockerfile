@@ -10,7 +10,7 @@ COPY FinalChallengeSA.Infra.Data/FinalChallengeSA.Infra.Data.csproj FinalChallen
 COPY FinalChallengeSA.Infra.IoC/FinalChallengeSA.Infra.IoC.csproj FinalChallengeSA.Infra.IoC/
 COPY FinalChallengeSA.Api/FinalChallengeSA.Api.csproj FinalChallengeSA.Api/
 
-RUN dotnet restore FinalChallengeSA.sln
+RUN dotnet restore FinalChallengeSA.slnx
 
 # Application source
 COPY . .

@@ -1,11 +1,10 @@
 using FinalChallengeSA.Application.DTOs;
 using FinalChallengeSA.Application.Interfaces;
-using FinalChallengeSA.Domain.Entities;
 using MediatR;
 
 namespace FinalChallengeSA.Application.Queries.Products.GetProductsByName
 {
-    public sealed class GetProductsByNameQueryHandler : IRequestHandler<GetProductsByNameQuery, IReadOnlyCollection<ProductResponse>>
+    public sealed class GetProductsByNameQueryHandler : IRequestHandler<GetProductsByNameQuery, ProductResponse?>
     {
         private readonly IProductRepository _repository;
 
@@ -14,17 +13,17 @@ namespace FinalChallengeSA.Application.Queries.Products.GetProductsByName
             _repository = repository;
         }
 
-        public async Task<IReadOnlyCollection<ProductResponse>> Handle(
+        public async Task<ProductResponse?> Handle(
             GetProductsByNameQuery query,
             CancellationToken cancellationToken)
         {
-            var products = await _repository.GetByNameAsync(query.Name, cancellationToken);
+            var product = await _repository.GetByNameAsync(query.Name, cancellationToken);
 
-            if (products is null)
+            if (product is null)
             {
-                return [];
+                return null;
             }
-            return [.. products.Select(product => new ProductResponse(product.Id, product.Name, product.Description, product.Price))];
+            return new ProductResponse(product.Id, product.Name, product.Description, product.Price);
         }
     }
 }

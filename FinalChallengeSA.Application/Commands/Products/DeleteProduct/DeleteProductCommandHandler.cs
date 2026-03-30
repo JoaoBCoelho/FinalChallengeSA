@@ -21,7 +21,7 @@ namespace FinalChallengeSA.Application.Commands.Products.DeleteProduct
             var isInAnyOrder = await _repository.IsInAnyOrderAsync(command.Id, cancellationToken);
             if (isInAnyOrder)
             {
-                throw new InvalidOperationException($"Produto com id '{command.Id}' não pode ser deletado pois está presente em um ou mais pedidos.");
+                throw new ConflictException($"Produto com id '{command.Id}' não pode ser deletado pois está presente em um ou mais pedidos.");
             }
 
             await _repository.DeleteAsync(command.Id, cancellationToken);

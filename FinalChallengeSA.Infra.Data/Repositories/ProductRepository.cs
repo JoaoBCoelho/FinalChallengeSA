@@ -49,12 +49,11 @@ namespace FinalChallengeSA.Infra.Data.Repositories
             return await _context.Products.FindAsync([id], ct);
         }
 
-        public async Task<IReadOnlyCollection<Product>> GetByNameAsync(string name, CancellationToken ct = default)
+        public async Task<Product?> GetByNameAsync(string name, CancellationToken ct = default)
         {
             return await _context.Products
                 .AsNoTracking()
-                .Where(c => c.Name.ToUpperInvariant() == name.ToUpperInvariant())
-                .ToListAsync(ct);
+                .FirstOrDefaultAsync(c => c.Name.ToUpper() == name.ToUpper(), ct);
         }
 
         public async Task<bool> IsInAnyOrderAsync(Guid productId, CancellationToken ct = default)

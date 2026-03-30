@@ -1,5 +1,5 @@
 ﻿using FinalChallengeSA.Application.Exceptions;
-using System.Net;
+using FluentValidation;
 using System.Text.Json;
 
 namespace FinalChallengeSA.Api.Middlewares
@@ -19,34 +19,25 @@ namespace FinalChallengeSA.Api.Middlewares
             {
                 await next(context);
             }
-            catch (Exception ex)
+            catch (NotFoundException ex)
             {
-                await HandleExceptionAsync(context, ex);
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new { error = ex.Message }));
             }
-        }
-
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            HttpStatusCode statusCode;
-
-            switch (exception)
+            catch (ConflictException ex)
             {
-                case ValidationException:
-                    statusCode = HttpStatusCode.BadRequest;
-                    break;
-                case NotFoundException:
-                    statusCode = HttpStatusCode.NotFound;
-                    break;
-                default:
-                    statusCode = HttpStatusCode.InternalServerError;
-                    break;
+                context.Response.StatusCode = StatusCodes.Status409Conflict;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new { error = ex.Message }));
             }
-
-            var result = JsonSerializer.Serialize(new { Error = exception.Message });
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)statusCode;
-
-            return context.Response.WriteAsync(result);
+            catch (ValidationException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.Response.ContentType = "application/json";
+                var errors = ex.Errors.Select(e => e.ErrorMessage);
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new { errors }));
+            }
         }
     }
 }

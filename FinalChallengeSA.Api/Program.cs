@@ -14,6 +14,7 @@ builder.Services.AddApplicationMediatR();
 
 builder.Services.RegisterDbContext(builder.Configuration);
 builder.Services.AddRepositories();
+builder.Services.SetupFluentValidation();
 
 var app = builder.Build();
 

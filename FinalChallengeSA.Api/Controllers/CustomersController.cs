@@ -74,9 +74,9 @@ namespace FinalChallengeSA.Api.Controllers
         }
 
         /// <summary>Busca customers por nome</summary>
-        [HttpGet("getbyname")]
+        [HttpGet("name/{name}")]
         [ProducesResponseType(typeof(IEnumerable<CustomerResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetByName([FromQuery] string name)
+        public async Task<IActionResult> GetByName(string name)
         {
             var result = await _mediator.Send(new GetCustomersByNameQuery(name));
             return Ok(result);

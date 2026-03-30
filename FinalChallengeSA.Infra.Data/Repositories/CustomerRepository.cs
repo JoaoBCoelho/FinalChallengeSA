@@ -53,7 +53,7 @@ namespace FinalChallengeSA.Infra.Data.Repositories
         {
             return await _context.Customers
                 .AsNoTracking()
-                .Where(c => c.Name.ToUpperInvariant() == name.ToUpperInvariant())
+                .Where(c => c.Name.ToUpper() == name.ToUpper())
                 .ToListAsync(ct);
         }
 

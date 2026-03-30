@@ -27,6 +27,7 @@ namespace FinalChallengeSA.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create([FromBody] ProductRequest request)
         {
             var result = await _mediator.Send(new CreateProductCommand(request));
@@ -38,6 +39,7 @@ namespace FinalChallengeSA.Api.Controllers
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Update(Guid id, [FromBody] ProductRequest request)
         {
             var result = await _mediator.Send(new UpdateProductCommand(id, request));
@@ -74,9 +76,10 @@ namespace FinalChallengeSA.Api.Controllers
         }
 
         /// <summary>Busca produtos por nome</summary>
-        [HttpGet("getbyname")]
-        [ProducesResponseType(typeof(IEnumerable<ProductResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetByName([FromQuery] string name)
+        [HttpGet("name/{name}")]
+        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByName(string name)
         {
             var result = await _mediator.Send(new GetProductsByNameQuery(name));
             return Ok(result);

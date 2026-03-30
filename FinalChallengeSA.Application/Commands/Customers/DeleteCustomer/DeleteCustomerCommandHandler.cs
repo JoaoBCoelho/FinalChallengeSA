@@ -22,7 +22,7 @@ namespace FinalChallengeSA.Application.Commands.Customers.DeleteCustomer
             var hasOrders = await _repository.HasOrdersAsync(command.Id, cancellationToken);
             if (hasOrders)
             {
-                throw new ValidationException($"Não é possível deletar o Cliente '{command.Id}' pois ele possui pedidos criados.");
+                throw new ConflictException($"Não é possível deletar o Cliente '{command.Id}' pois ele possui pedidos criados.");
             }
 
             await _repository.DeleteAsync(command.Id, cancellationToken);
